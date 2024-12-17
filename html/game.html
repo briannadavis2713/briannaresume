@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anagram Game</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9b9b9b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .game-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .scrambled-word {
+            font-size: 28px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+            margin-top: 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
+        .white{
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    
+<div class="center fixed-header">
+            <a href="../bootstrap/index.html">Resume</a> |
+            <a href ="aboutme.html">Scratch Page</a> | 
+            <a href ="#">Hong Kong Anagrams</a>
+</div>
+
+<h1 class="white">Hong Kong Anagrams</h1>
+
+<div class="game-container">
+    <p>Unscramble the word about Hong Kong!</p>
+    <div id="scrambled-word" class="scrambled-word"></div>
+    
+    <input type="text" id="guess" placeholder="Your guess...">
+    <button onclick="checkGuess()">Check Answer</button>
+    
+    <div id="feedback" class="feedback"></div>
+    <button id="next-button" style="display: none;" onclick="nextWord()">Next Word</button>
+</div>
+
+<script>
+    const words = ["Hong Kong", "Star Ferry", "Victoria Peak", "Tsim Sa Tsui", "Macau", "Egg Tart", "Kwun Tong", "Kowloon", "Cantonese", "Big Buddha"];
+    let currentWord = "";
+    let usedWords = []; // Array to keep track of used words
+    
+    // Function to scramble a word while keeping spaces in place
+    function scrambleWord(word) {
+        let scrambled;
+        
+        // Scramble until the scrambled word is different from the original word
+        do {
+            let wordArr = word.split(" ");
+            let scrambledWords = wordArr.map((w) => {
+                return w.split('').sort(() => 0.5 - Math.random()).join('');
+            });
+            scrambled = scrambledWords.join(" ");
+        } while (scrambled === word); // Keep scrambling until it's different
+
+        return scrambled;
+    }
+
+    // Function to start the game and display a new scrambled word
+    function startGame() {
+        if (words.length === 0) {
+            document.getElementById("scrambled-word").textContent = "Game Over! You've completed all words!";
+            document.getElementById("guess").disabled = true;
+            document.getElementById("next-button").disabled = true;
+            return; // End the game if all words have been used
+        }
+
+        // Get a random word from the list that has not been used
+        const randomIndex = Math.floor(Math.random() * words.length);
+        currentWord = words[randomIndex];
+        
+        // Scramble the word
+        const scrambled = scrambleWord(currentWord);
+        document.getElementById("scrambled-word").textContent = scrambled;
+        document.getElementById("feedback").textContent = "";
+        document.getElementById("guess").value = "";
+        document.getElementById("next-button").style.display = "none"; // Hide "Next Word" initially
+        
+        // Remove the word from the list of available words to prevent reuse
+        words.splice(randomIndex, 1);
+    }
+
+    // Function to check the user's guess
+    function checkGuess() {
+        const userGuess = document.getElementById("guess").value.trim();
+        
+        // Normalize the current word and user guess for comparison (ignore spaces)
+        const normalizedWord = currentWord.replace(/\s+/g, '').toLowerCase();
+        const normalizedGuess = userGuess.replace(/\s+/g, '').toLowerCase();
+
+        const feedback = document.getElementById("feedback");
+
+        if (normalizedGuess === normalizedWord) {
+            feedback.textContent = "Correct! Well done.";
+            feedback.className = "feedback correct";
+            document.getElementById("next-button").style.display = "block"; // Show "Next Word" when correct
+        } else {
+            feedback.textContent = "Incorrect. Try again!";
+            feedback.className = "feedback incorrect";
+        }
+    }
+
+    // Function to go to the next word
+    function nextWord() {
+        startGame(); // Start a new game (new word)
+    }
+
+    // Start the game when the page loads
+    window.onload = startGame;
+</script>
+
+</body>
+</html>
+

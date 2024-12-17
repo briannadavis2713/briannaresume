@@ -1,0 +1,69 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+    background-color:#9b9b9b;
+}
+li {
+    font-size: 13px;
+    font-weight: normal;
+}
+a {
+    font-style: italic;
+    color:#000000;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration:underline;
+}
+
+.boldheadings {
+    font-weight: bold;
+}
+.underline {
+    text-decoration: underline;
+}
+.justify {text-align: justify;}
+.homebackground {
+    background-image: url('../images/greybackground.jpeg');
+    background-size: cover;
+}
+.box1 {
+    border-width: 1px;
+    border-style: solid;
+    border-color:black;
+/*You can write these all in one line using attribute border*/
+}
+.box2 {
+/*space between border and content*/
+    padding: 5px;
+}
+.box3 {
+    margin: 50px;
+/*space between all different pieces of content*/
+}
+.center {
+    text-align: center;
+}
+.hongkongimage {
+    border-radius: 2px;
+    border: solid 5px white;
+    display: flex;
+    text-align: center;
+}
+
+.hongkongimage img {
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+    
+}
+.fixed-header {
+            position: fixed;
+            top: 0;  /* Lock it to the top of the page */
+            left: 0;
+            width: 100%;  /* Make it span the full width of the page */
+            padding: 10px;
+            text-align: center;
+            z-index: 1000;  /* Make sure it's above other content */
+        }
